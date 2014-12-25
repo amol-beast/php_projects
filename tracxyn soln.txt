@@ -1,0 +1,42 @@
+SELECT node.name, (COUNT(parent.name) - 1) AS depth FROM nested_category AS node, nested_category AS parent WHERE node.lft BETWEEN parent.lft AND parent.rgt GROUP BY node.name ORDER BY node.lft;
+
+A
+ B
+  D
+ C
+  E
+
+
+category_id        category_name       lft(integer)        rgt(integer)
+1						A				1					10
+2						B				2					5
+3						D				3					4	
+4						C				6					9
+5						E				7					8
+
+
+SELECT node.name, (COUNT(parent.name) - 1) AS depth FROM nested_category AS node, nested_category AS parent WHERE node.lft BETWEEN parent.lft AND parent.rgt GROUP BY node.name ORDER BY node.lft;
+
+category       depth
+A				0
+B				1
+D				2
+C				1
+E				2
+
+$result=mysqli_query($con,$statement1);
+$row = mysqli_fetch_array($result);
+
+$fp = fopen('categories_tmp.json', 'w');
+if ((fwrite($fp, json_encode($row)))!= FALSE)
+	{
+		system('cp -f categories_tmp.json categories.json');
+	}
+else
+ {
+	echo "Json file creation failed"
+ }
+fclose($fp);
+
+
+
